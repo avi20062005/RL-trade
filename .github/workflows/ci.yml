@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install (core + dev)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Reject merge-conflict markers
+        run: |
+          ! grep -rn -E '^(<<<<<<<|>>>>>>>) ' --include='*.py' src tests
+      - name: Ruff
+        run: ruff check src tests
+      - name: Mypy (strict)
+        run: mypy
+      - name: Pytest (core, ML smoke tests skipped)
+        run: pytest
+
+  agents:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install (core + agents + dev)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,agents]"
+      - name: Pytest (including DDQN/SB3 smoke tests)
+        run: pytest

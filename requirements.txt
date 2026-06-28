@@ -1,0 +1,11 @@
+# Streamlit Community Cloud reads this file to build the app.
+# "." installs the quanttrade package and its core deps (numpy, pandas, gymnasium).
+# This lean default runs the dashboard with buy-and-hold + baseline agents.
+.
+streamlit>=1.36
+
+# To ALSO serve trained PPO/DQN/A2C/DDQN models on the live site, uncomment the
+# two lines below. Note: these are large and may exceed free-tier memory limits;
+# the reliable place to view trained agents is a local run or a paid host.
+# stable-baselines3>=2.3
+# torch>=2.6

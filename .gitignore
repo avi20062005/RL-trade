@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+
+# Project artifacts (models, caches, logs are reproducible outputs)
+artifacts/
+logs/
+data/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
